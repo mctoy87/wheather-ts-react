@@ -1,12 +1,24 @@
+import { useAppSelector } from '../../hooks';
 import style from './Result.module.scss';
 
 type Props = {};
 
 export const Result = (props: Props) => {
+  const { weather, isLoading, error } = useAppSelector((state) => state.weather);
   return (
     <div className={style.result}>
-      <p>25&#8451;</p>
-      <p>Калининград</p>
+      {isLoading ? (
+        <p>Загрузка...</p>
+      ) : weather.name ? (
+        <>
+          <p>{weather.main.temp}&#8451;</p>
+          <p>{weather.name}</p>
+        </>
+      ) : error === 'Not Found' ? (
+        <p>Город не найден</p>
+      ) : (
+        <p>Введите город</p>
+      )}
     </div>
   )
 };

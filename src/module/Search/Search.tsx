@@ -1,14 +1,18 @@
 import { useState } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { weatherRequestAsync } from '../../store/weatherAction';
 import style from './Search.module.scss';
 import {ReactComponent as SearchIcon} from './search.svg';
 
 type Props = {};
 
 export const Search = (props: Props) => {
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState('');
 
   const handlerSubmit = (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
+    dispatch(weatherRequestAsync(search));
   };
 
   // чтобы компонент стал управляемым
